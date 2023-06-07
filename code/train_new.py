@@ -1,13 +1,10 @@
 import logging
 import os
 import sys
-from dataclasses import dataclass, field
-from typing import Optional
 
 import datasets
 import numpy as np
 from datasets import load_dataset
-
 
 import transformers
 from transformers import (
@@ -29,6 +26,8 @@ from utils.query import ask_wikidata
 from utils.export import export_json
 from utils.postprocess import postprocess_sparql
 from utils.gerbil import *
+
+new_tokens = ["new_token"]
 
 logger = logging.getLogger(__name__)
 
@@ -142,6 +141,7 @@ def main():
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
     )
+
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
     model = AutoModelForSeq2SeqLM.from_pretrained(
         model_args.model_name_or_path,
@@ -151,6 +151,11 @@ def main():
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
     )
+
+    # add new tokens
+    new_tokens = set(new_tokens) - set(tokenizer.vocab.keys())
+    tokenizer.add_tokens(list(new_tokens))
+    model.resize_token_embeddings(len(tokenizer))
 
     # We resize the embeddings only when necessary to avoid index errors. If you are creating a model from scratch
     # on a small vocab and want a smaller embedding size, remove this test.
