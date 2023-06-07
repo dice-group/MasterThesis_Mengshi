@@ -4,6 +4,7 @@ import sys
 
 import datasets
 import numpy as np
+import pandas as pd
 from datasets import load_dataset
 
 import transformers
@@ -26,8 +27,6 @@ from utils.query import ask_wikidata
 from utils.export import export_json
 from utils.postprocess import postprocess_sparql
 from utils.gerbil import *
-
-new_tokens = ["new_token"]
 
 logger = logging.getLogger(__name__)
 
@@ -153,9 +152,16 @@ def main():
     )
 
     # add new tokens
-    new_tokens = set(new_tokens) - set(tokenizer.vocab.keys())
-    tokenizer.add_tokens(list(new_tokens))
+    lcquad = pd.read_csv("datasets/lcquad/lcquad_wikidata.csv")
+    relations = list()
+    for q in lcquad["query"]:
+        tokens = q.split()
+    relations.extend([token for token in tokens if token.startswith("wdt")])
+    relations = set(relations) - set(tokenizer.vocab.keys())
+    tokenizer.add_tokens(list(relations))
     model.resize_token_embeddings(len(tokenizer))
+    logger.info("added relations tokens")
+
 
     # We resize the embeddings only when necessary to avoid index errors. If you are creating a model from scratch
     # on a small vocab and want a smaller embedding size, remove this test.
