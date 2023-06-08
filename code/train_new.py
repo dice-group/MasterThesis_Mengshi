@@ -60,7 +60,10 @@ def run_gerbil(ref_file_path, pred_file_path):
         }
     else: 
         print("Error when getting GERBIL results")
-    return {}
+    return {
+        "Micro F1": -1,
+        "Macro F1": -1
+        }
 
 def main():
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
@@ -297,7 +300,7 @@ def main():
         if isinstance(preds, tuple):
             preds = preds[0]
         decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
-        ref = np.where(ref != -100, ref, tokenizer.pad_token_id)
+        refs = np.where(refs != -100, refs, tokenizer.pad_token_id)
         decoded_refs = tokenizer.batch_decode(refs, skip_special_tokens=True)
 
         # Some simple post-processing
@@ -311,9 +314,13 @@ def main():
         pred_path = "tmp/pred.json"
         pred_qald = build_qald(pred_sparqls)
         export_json(pred_path, pred_qald)
+
         
+        ref_sparqls = []
+        for ref in decoded_refs:
+            ref_sparqls.append(postprocess_sparql(ref))
         ref_path = "tmp/ref.json"
-        ref_qald = build_qald(decoded_refs)
+        ref_qald = build_qald(ref_sparqls)
         export_json(ref_path, ref_qald)
         
         result = run_gerbil(ref_path, pred_path)
