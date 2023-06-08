@@ -162,18 +162,33 @@ def clean_gerbil_table(html):
     html = pd.read_html(html)[0].rename(columns={
         "Unnamed: 3": "Benchmark",
     })
-    html = html[html['Benchmark'].isna()]
+    try:
+        html = html[html['Benchmark'].isna()]
+    except:
+        pass
     for index, row in html.iterrows():
         html.at[index, "Language"] = row["Annotator"][-13:-11]
-    html = html.drop(
-        columns=[
-            'Dataset',
-            'Annotator',
-            'Error Count',
-            'avg millis/doc',
-            'Timestamp',
-            'GERBIL version',
-            'Benchmark'
-        ]
-    )
+    try:
+        html = html.drop(
+            columns=[
+                'Dataset',
+                'Annotator',
+                'Error Count',
+                'avg millis/doc',
+                'Timestamp',
+                'GERBIL version',
+                'Benchmark'
+            ]
+        )
+    except:
+        html = html.drop(
+            columns=[
+                'Dataset',
+                'Annotator',
+                'Error Count',
+                'avg millis/doc',
+                'Timestamp',
+                'GERBIL version',
+            ]
+        )
     return html
