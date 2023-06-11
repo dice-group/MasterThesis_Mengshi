@@ -159,8 +159,9 @@ def main():
     relations = list()
     for q in lcquad["query"]:
         tokens = q.split()
-    relations.extend([token for token in tokens if token.startswith("wdt")])
+        relations.extend([token for token in tokens if token.startswith("wdt")])
     relations = set(relations) - set(tokenizer.vocab.keys())
+    print(relations)
     tokenizer.add_tokens(list(relations))
     model.resize_token_embeddings(len(tokenizer))
     logger.info("added relations tokens")
