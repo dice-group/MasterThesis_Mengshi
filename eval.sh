@@ -1,9 +1,9 @@
 #!/bin/bash
 
-model="11_linguistic_mt5-xl"
-exp_setting="all_lang_linguistic_mt5-xl"
+model="qald9-plus-all"
+exp_setting="LC-QuAD-all_lang"
 pred_pfad=pred_files/${model}/
-linguitic_context="True"
+linguitic_context="False"
 
 
 languages=("en" "de" "ru" "fr" "zh" "lt" "ja" "ba" "be" "uk" "es")
