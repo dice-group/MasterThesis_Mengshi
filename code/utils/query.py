@@ -9,7 +9,6 @@ from SPARQLWrapper.SPARQLExceptions import SPARQLWrapperException
 def init_summarizer(checkpoint_path):
     return pipeline("summarization", model=checkpoint_path, max_length=128, device=1)
 
-
 def predict_query(summarizer, question_string):
     return summarizer(question_string)[0]['summary_text']
 
