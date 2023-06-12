@@ -3,7 +3,7 @@
 model="qald9-plus-all"
 exp_setting="LC-QuAD-all_lang"
 pred_pfad=pred_files/${model}/
-linguitic_context="False"
+linguitic_context="false"
 
 
 languages=("en" "de" "ru" "fr" "zh" "lt" "ja" "ba" "be" "uk" "es")
@@ -16,8 +16,7 @@ do
         --model fine-tuned_models/${model} \
         -t datasets/qald9plus/qald_9_pp_test_wikidata_linguistic.json \
         -o pred_files/${model}/${lang}.json \
-        -l ${lang} \
-        --linguistic_context ${linguitic_context}
+        -l ${lang}
 done
 
 echo "Start running GERBIL experiment"
