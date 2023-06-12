@@ -14,10 +14,10 @@ deepspeed code/train_new.py \
     --train_file ${train_file} \
     --output_dir ${output_dir} \
     --num_train_epochs 15 \
-    --per_device_train_batch_size=4 \
+    --per_device_train_batch_size=16 \
     --overwrite_output_dir \
-    --save_steps 3000 \
-    --save_total_limit 2 \
+    --save_steps 500 \
+    --save_total_limit 4 \
     --report_to wandb \
     --run_name ${run_name}\
     --tf32 1 \
