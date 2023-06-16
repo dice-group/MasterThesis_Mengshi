@@ -6,6 +6,8 @@ import datasets
 import numpy as np
 import pandas as pd
 from datasets import load_dataset
+from collections import Counter
+
 
 import transformers
 from transformers import (
@@ -64,6 +66,11 @@ def run_gerbil(ref_file_path, pred_file_path):
         "Micro F1": -1,
         "Macro F1": -1
         }
+
+def get_elements_above_threshold(lst, threshold):
+    counter = Counter(lst)
+    return [element for element, count in counter.items() if count > threshold]
+
 
 def main():
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
@@ -160,6 +167,7 @@ def main():
     for q in lcquad["query"]:
         tokens = q.split()
         relations.extend([token for token in tokens if token.startswith("wdt")])
+    relations = get_elements_above_threshold(relations, 10)
     relations = set(relations) - set(tokenizer.vocab.keys())
     tokenizer.add_tokens(list(relations))
     model.resize_token_embeddings(len(tokenizer))
