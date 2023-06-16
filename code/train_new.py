@@ -32,6 +32,11 @@ logger = logging.getLogger(__name__)
 
 check_min_version("4.28.0.dev0")
 
+# Select GPUs to train (usually trains faster on a single GPU)
+# os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
+
 
 def build_qald(sparqls):
     qald = []
