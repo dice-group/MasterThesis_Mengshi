@@ -7,7 +7,7 @@ run_name="${model_name}-${dataset_name}"
 train_file="datasets/lcquad/lcquad_wikidata.csv"
 validation_file="datasets/q9pp_test_en.csv"
 
-deepspeed code/train_new.py \
+deepspeed --num_gpus=1 code/train_new.py \
     --deepspeed deepspeed/ds_config_zero3.json \
     --model_name_or_path ${model_name} \
     --do_train \
