@@ -1,10 +1,8 @@
 #!/bin/bash
 
-model="q9pp-ling-context"
-exp_setting="all_lang_linguistic_mt5-xl"
+model="q9pp-ling-entity"
+exp_setting="mt5-xl-lcquad-ling-entity"
 pred_path=pred_files/${model}/
-linguitic_context="True"
-
 
 languages=("en" "de" "ru" "fr" "zh" "lt" "ja" "ba" "be" "uk")
 
