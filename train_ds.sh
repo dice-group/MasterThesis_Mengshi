@@ -2,6 +2,8 @@
 
 dataset_name="mT5-lcquad-ling-entity"
 model_name="lcquad-ling-entity"
+dataset_name="qald-9-plus-ling-entity"
+model_name="lcquad-ling-entity"
 output_dir="fine-tuned_models/${dataset_name}"
 run_name="${model_name}-${dataset_name}"
 train_file="datasets/train.csv"

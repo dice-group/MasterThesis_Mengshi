@@ -1,10 +1,8 @@
 #!/bin/bash
 
-model="mt5/12_mt5"
-exp_setting="mt5-base"
-pred_path=pred_files/${model}-new/
-linguitic_context="True"
-
+model="q9pp-ling-entity"
+exp_setting="mt5-xl-lcquad-ling-entity"
+pred_pfad=pred_files/${model}/
 
 languages=("en" "de" "ru" "fr" "zh" "lt" "ja" "ba" "be" "uk")
 
