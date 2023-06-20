@@ -1,12 +1,12 @@
 #!/bin/bash
 
-model="q9pp-ling-context"
-exp_setting="all_lang_linguistic_mt5-xl"
+model="qald-9-plus"
+exp_setting="qald9_mt5-xl-lcquad"
 pred_pfad=pred_files/${model}/
 linguitic_context="True"
 
 
-languages=("en" "de" "ru" "fr" "zh" "lt" "ja" "ba" "be" "uk" "es")
+languages=("en" "de" "ru" "fr" "zh" "lt" "ja" "ba" "be" "uk")
 
 
 for lang in "${languages[@]}"
