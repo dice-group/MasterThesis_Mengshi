@@ -22,5 +22,6 @@ echo "Start running GERBIL experiment"
 python code/gerbil_eval.py \
     --exp_setting ${exp_setting} \
     --pred_path ${pred_path}
+    --pred_path ${pred_path}
 
 
