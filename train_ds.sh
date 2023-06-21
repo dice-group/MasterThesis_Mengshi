@@ -1,14 +1,14 @@
 #!/bin/bash
 
-dataset_name="qald-9-plus-ling-entity"
+dataset_name="mT5-lcquad-ling-entity"
 model_name="lcquad-ling-entity"
 output_dir="fine-tuned_models/${dataset_name}"
 run_name="${model_name}-${dataset_name}"
-train_file="datasets/lcquad/train.csv"
+train_file="datasets/train.csv"
 
 deepspeed --num_gpus=1 code/train_new.py \
     --deepspeed deepspeed/ds_config_zero3.json \
-    --model_name_or_path ${model_name} \
+    --model_name_or_path fine-tuned_models/${model_name} \
     --do_train \
     --train_file ${train_file} \
     --output_dir ${output_dir} \
