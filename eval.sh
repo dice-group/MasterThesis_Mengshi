@@ -1,8 +1,8 @@
 #!/bin/bash
 
-model="q9pp-ling-context"
-exp_setting="all_lang_linguistic_mt5-xl"
-pred_path=pred_files/${model}/
+model="mt5/12_mt5"
+exp_setting="mt5-base"
+pred_path=pred_files/${model}-new/
 linguitic_context="True"
 
 
