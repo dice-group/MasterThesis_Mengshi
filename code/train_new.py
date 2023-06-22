@@ -5,6 +5,8 @@ import sys
 import datasets
 import numpy as np
 from datasets import load_dataset
+from collections import Counter
+
 
 
 import transformers
@@ -63,6 +65,11 @@ def run_gerbil(ref_file_path, pred_file_path):
     else:
         print("Error when getting GERBIL results")
     return {}
+
+def get_elements_above_threshold(lst, threshold):
+    counter = Counter(lst)
+    return [element for element, count in counter.items() if count > threshold]
+
 
 
 def main():
@@ -153,6 +160,19 @@ def main():
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
     )
+
+    # add new tokens
+    lcquad = pd.read_csv("datasets/lcquad/lcquad_wikidata.csv")
+    relations = list()
+    for q in lcquad["query"]:
+        tokens = q.split()
+        relations.extend([token for token in tokens if token.startswith("wdt")])
+    relations = get_elements_above_threshold(relations, 10)
+    relations = set(relations) - set(tokenizer.vocab.keys())
+    tokenizer.add_tokens(list(relations))
+    model.resize_token_embeddings(len(tokenizer))
+    logger.info("added relations tokens")
+
 
     # We resize the embeddings only when necessary to avoid index errors. If you are creating a model from scratch
     # on a small vocab and want a smaller embedding size, remove this test.
