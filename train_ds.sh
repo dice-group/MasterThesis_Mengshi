@@ -1,13 +1,12 @@
 #!/bin/bash
 
-dataset_name="LC-QuAD"
+dataset_name="LC-QuAD-ling-300rt"
 model_name="google/mt5-xl"
 output_dir="fine-tuned_models/${dataset_name}"
 run_name="${model_name}-${dataset_name}"
-train_file="datasets/lcquad/lcquad_wikidata.csv"
-validation_file="datasets/q9pp_test_en.csv"
+train_file="datasets/lcquad/lcquad_wikidata-ling.csv"
 
-deepspeed --num_gpus=1 code/train_new.py \
+deepspeed --include=localhost:0 --master_port 60000 code/train_new.py \
     --deepspeed deepspeed/ds_config_zero3.json \
     --model_name_or_path ${model_name} \
     --do_train \
