@@ -1,8 +1,8 @@
 #!/bin/bash
 
-model="q9pp-ling-entity"
+model="lcquad-ling-entity"
 exp_setting="mt5-xl-lcquad-ling-entity"
-pred_path=pred_files/${model}/
+pred_path=pred_files/${exp_setting}
 
 languages=("en" "de" "ru" "fr" "zh" "lt" "ja" "ba" "be" "uk")
 
@@ -12,7 +12,7 @@ do
     python code/test_and_build_qald.py \
         --model fine-tuned_models/${model} \
         -t datasets/qald9plus/qald_9_pp_test_wikidata.json \
-        -o pred_files/${model}/${lang}.json \
+        -o ${pred_path}/${lang}.json \
         -l ${lang} \
         --linguistic_context True \
         --entity_knowledge True
