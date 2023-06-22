@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dataset_name="LC-QuAD-ling-300rt"
+dataset_name="LC-QuAD-ling"
 model_name="google/mt5-xl"
 output_dir="fine-tuned_models/${dataset_name}"
 run_name="${model_name}-${dataset_name}"
@@ -15,7 +15,7 @@ deepspeed --include=localhost:0 --master_port 60000 code/train_new.py \
     --num_train_epochs 32 \
     --per_device_train_batch_size=16 \
     --overwrite_output_dir \
-    --save_steps 3000 \
+    --save_steps 6000 \
     --save_total_limit 2 \
     --report_to wandb \
     --run_name ${run_name}\
