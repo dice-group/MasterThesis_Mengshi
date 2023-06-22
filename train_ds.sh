@@ -6,7 +6,7 @@ output_dir="fine-tuned_models/${dataset_name}"
 run_name="${model_name}-${dataset_name}"
 train_file="datasets/lcquad/lcquad_wikidata-ling.csv"
 
-deepspeed --include=localhost:0 --master_port 60000 code/train_new.py \
+deepspeed --include=localhost:1 --master_port 61000 code/train_new.py \
     --deepspeed deepspeed/ds_config_zero3.json \
     --model_name_or_path ${model_name} \
     --do_train \
@@ -15,7 +15,7 @@ deepspeed --include=localhost:0 --master_port 60000 code/train_new.py \
     --num_train_epochs 32 \
     --per_device_train_batch_size=16 \
     --overwrite_output_dir \
-    --save_steps 3000 \
+    --save_steps 6000 \
     --save_total_limit 2 \
     --report_to wandb \
     --run_name ${run_name}\
