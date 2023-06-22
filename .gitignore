@@ -16,3 +16,4 @@ wandb/*
 code/__pycache__/*
 tmp/*
 datasets/*.csv
+datasets/lcquad/*.csv
