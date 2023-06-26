@@ -1,6 +1,6 @@
 #!/bin/bash
 
-model="mt5/11_mt5"
+model="mt5-lcquad-ling-300rt-qald9"
 pred_path=pred_files/${model}
 linguitic_context="True"
 
@@ -15,7 +15,8 @@ do
         --model fine-tuned_models/${model} \
         -t datasets/qald9plus/qald_9_pp_test_wikidata_new.json \
         -o ${pred_path}/${lang}.json \
-        -l ${lang}
+        -l ${lang} \
+        --linguistic_context True
 done
 
 echo "Start running GERBIL experiment"
