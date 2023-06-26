@@ -1,20 +1,15 @@
 #!/bin/bash
 
-dataset_name=""
-model_name="google/mt5-xl"
-output_dir="fine-tuned_models/${dataset_name}"
-run_name="${model_name}-${dataset_name}"
-train_file=""
-validation_file=""
+run_name="mt5-lcquad-ling-300rt-qald9"
+model_name="fine-tuned_models/LC-QuAD-ling-300rt"
+output_dir="fine-tuned_models/${run_name}"
+train_file="datasets/qald9plus-ling.csv"
 
-deepspeed --num_gpus=1 code/train_new.py \
+deepspeed --include=localhost:1 --master_port 61000 code/train_new.py \
     --deepspeed deepspeed/ds_config_zero3.json \
     --model_name_or_path ${model_name} \
     --do_train \
-    --do_eval \
-    --eval_steps 1500 \
     --train_file ${train_file} \
-    --validation_file ${validation_file} \
     --output_dir ${output_dir} \
     --num_train_epochs 15 \
     --per_device_train_batch_size=16 \
