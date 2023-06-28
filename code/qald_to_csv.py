@@ -1,6 +1,6 @@
 import argparse
 from utils.data_io import read_json
-from utils.Qald import Qald
+from code.Qald import Qald
 
 supported_languages = [
     "en",

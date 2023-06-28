@@ -2,7 +2,7 @@ import argparse
 from utils.data_io import read_json
 from utils.query import init_summarizer, predict_query, ask_wikidata
 from utils.query import postprocess_sparql
-from utils.Qald import Qald
+from code.Qald import Qald
 from tqdm import tqdm
 
 

@@ -3,6 +3,8 @@ from utils.query import preprocess_sparql
 from utils.linguistic_parser import get_linguistic_context
 import spacy
 import re
+import requests
+import json
 
 nlp_en = spacy.load("en_core_web_sm")
 nlp_zh = spacy.load("zh_core_web_sm")
@@ -26,6 +28,12 @@ nlp_dict = {
     "be": nlp_ru
 }
 
+babelscape_supported_languages = ['de', 'en',
+                                  'es', 'fr', 'it', 'nl', 'pl', 'pt', 'ru']
+
+davlan_supported_languages = ['ar', 'de', 'en',
+                              'es', 'fr', 'it', 'lv', 'nl', 'pt', 'zh']
+
 
 class Qald:
     def __init__(self, qald_file: dict) -> None:
@@ -36,10 +44,11 @@ class Qald:
         if qald_dataset:
             dataset = qald_dataset["questions"]
             for entry in dataset:
-                qald_entry = Qald_entry(entry["id"], entry["question"], entry["query"]["sparql"], entry["answers"])
+                qald_entry = Qald_entry(
+                    entry["id"], entry["question"], entry["query"]["sparql"], entry["answers"])
                 qald_list.append(qald_entry)
         return qald_list
-    
+
     def add_entry(self, id, language, question_string, query, answers):
         question = [{
             "language": language,
@@ -54,10 +63,10 @@ class Qald:
             query = qald_entry.preprocessed_query
             for language in languages:
                 if language in qald_entry.questions:
-                    question = qald_entry.get_question_string_by_language(language, include_linguistic_context, include_entity_knowledge)
+                    question = qald_entry.get_question_string_by_language(
+                        language, include_linguistic_context, include_entity_knowledge)
                     csv_dataset.append([question, query])
         export_csv(output_file, csv_dataset)
-    
 
     def export_qald_json(self, languages: list, output: str, include_linguistic_context: bool = False, include_entity_knowledge: bool = False) -> None:
         qald_entries: list = []
@@ -72,9 +81,11 @@ class Qald:
         qald_entry: Qald_entry
         for qald_entry in self.qald:
             if language in qald_entry.questions:
-                question_string = qald_entry.get_question_string_by_language(language, include_linguistic_context, include_entity_knowledge)
+                question_string = qald_entry.get_question_string_by_language(
+                    language, include_linguistic_context, include_entity_knowledge)
                 questions_with_id.append([qald_entry.id, question_string])
         return questions_with_id
+
 
 class Qald_entry:
     def __init__(self, id, questions, query, answers) -> None:
@@ -95,7 +106,6 @@ class Qald_entry:
         pattern = r'\bwd_\w+\b'
         entities = re.findall(pattern, self.preprocessed_query)
         return entities
-
 
     def build_qald_format_entry(self, languages: list, include_linguistic_context: bool, include_entity_knowledge: bool) -> dict:
         entry_id = {"id": self.id}
@@ -126,7 +136,8 @@ class Qald_entry:
         if include_entity_knowledge:
             entity_knowledge = self.get_entity_knowledge()
         for language in languages:
-            question_string = self.questions[language].build_question_string(include_linguistic_context, entity_knowledge)
+            question_string = self.questions[language].build_question_string(
+                include_linguistic_context, entity_knowledge)
             question_lang_and_string.append(
                 {
                     "language": language,
@@ -134,7 +145,7 @@ class Qald_entry:
                 }
             )
         return question_lang_and_string
-    
+
     def get_question_string_by_language(self, language, include_linguistic_context: bool, include_entity_knowledge: bool) -> str:
         entity_knowledge = []
         if include_entity_knowledge:
@@ -164,3 +175,35 @@ class Question:
         if entity_knowledge:
             question_string += " <pad> " + " ".join(entity_knowledge)
         return question_string
+
+    def send_entity_detection_request(self, ner):
+        url = 'http://nebula.cs.upb.de:6100/custom-pipeline'
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+        data = {
+            'query': self.string,
+            'full_json': 'True',
+            'components': f'{ner}, mgenre_el',
+            'lang': self.language
+        }
+
+        response = requests.post(url, headers=headers, data=data)
+        return response.text
+    
+    def process_ner_response(self, ner_response: str):
+        entities = {}
+        response: dict = self.convert_ner_response_to_dict(ner_response)
+        detection: dict
+        for detection in response["ent_mentions"]:
+            link_candidates = detection["link_candidates"]
+            entity_name, _, entity_id = link_candidates[0]
+            entities[entity_name] = entity_id
+        return entities
+
+    def convert_ner_response_to_dict(self, ner_response) -> dict:
+        ner_response = ner_response.replace("false", '''"False"''')
+        ner_response = ner_response.replace("true", '''"True"''')
+        return json.loads(ner_response)
+
+
