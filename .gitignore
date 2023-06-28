@@ -17,3 +17,4 @@ code/__pycache__/*
 datasets/*.csv
 .vscode/*
 datasets/lcquad/*.csv
+test/__pycache__/*
