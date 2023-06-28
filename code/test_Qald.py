@@ -24,7 +24,7 @@ class Test_NER(unittest.TestCase):
             "Hawaii": "Q782",
             "Donald Trump": "Q22686"
         }
-        self.assertEquals(entities, expected)
+        self.assertEqual(entities, expected)
 
 if __name__ == '__main__':
     unittest.main()
