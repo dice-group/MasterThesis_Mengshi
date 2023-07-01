@@ -4,18 +4,23 @@ Mengshi Ma's master's thesis
 
 ## Generate train data set
 
+Run the following commands to generate data sets for fine-tuning. 
+
+If linguistic_context is not needed, change it to `--no-linguistic_context`.
+
+If entity_knowledge is not needed, change it to `--no-entity_knowledge`.
+
 lcquad1:
 ```bash
-python3 code/generate_train_csv.py -i datasets/lcquad1/train-data.json -o datasets/lcquad1/train.json -t lcquad1 -l all --linguistic_context True --entity_knowledge True
+python3 code/generate_train_csv.py -i datasets/lcquad1/train-data.json -o datasets/lcquad1/train.csv -t lcquad1 --linguistic_context --entity_knowledge
 ```
 
 lcquad2:
 ```bash
-python3 code/generate_train_csv.py 
+python3 code/generate_train_csv.py \
 -i datasets/lcquad2/train.json \ 
 -o datasets/lcquad2/train.csv \
 -t lcquad2 \
--l all \
 --linguistic_context \
 --entity_knowledge
 ```
