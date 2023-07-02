@@ -1,9 +1,9 @@
 #!/bin/bash
 
-run_name="exp11-LC-QuAD-ling-dbpedia"
-model_name="google/mt5-xl"
+run_name="exp12-fine-tune"
+model_name="fine-tuned_models/exp12-LC-QuAD-ling-dbpedia"
 output_dir="fine-tuned_models/${run_name}"
-train_file="datasets/lcquad1/train.csv"
+train_file="datasets/qald9plus/dbpedia/qald_9_plus-train_dbpedia.csv"
 
 deepspeed --include=localhost:0 --master_port 60000 code/train_new.py \
     --deepspeed deepspeed/ds_config_zero3.json \
@@ -11,10 +11,10 @@ deepspeed --include=localhost:0 --master_port 60000 code/train_new.py \
     --do_train \
     --train_file ${train_file} \
     --output_dir ${output_dir} \
-    --num_train_epochs 32 \
+    --num_train_epochs 15 \
     --per_device_train_batch_size=16 \
     --overwrite_output_dir \
-    --save_steps 1000 \
+    --save_steps 600 \
     --save_total_limit 2 \
     --report_to wandb \
     --run_name ${run_name}\
