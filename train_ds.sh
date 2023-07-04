@@ -1,20 +1,20 @@
 #!/bin/bash
 
-run_name="exp8-lc"
-model_name="fine-tuned_models/lcquad-ling-entity"
+run_name="baseline-dbp"
+model_name="google/mt5-base"
 output_dir="fine-tuned_models/${run_name}"
-train_file="datasets/qald9plus/wikidata/qald_9_plus_train_wikidata.csv"
+train_file="datasets/qald9plus/dbpedia/qald_9_plus-train_dbpedia.csv"
 
-deepspeed --include=localhost:0 --master_port 60000 code/train_new.py \
+deepspeed --include=localhost:1 --master_port 61000 code/train_new.py \
     --deepspeed deepspeed/ds_config_zero3.json \
     --model_name_or_path ${model_name} \
     --do_train \
     --train_file ${train_file} \
     --output_dir ${output_dir} \
-    --num_train_epochs 15 \
+    --num_train_epochs 100 \
     --per_device_train_batch_size=16 \
     --overwrite_output_dir \
-    --save_steps 600 \
+    --save_steps 3000 \
     --save_total_limit 2 \
     --report_to wandb \
     --run_name ${run_name}\
