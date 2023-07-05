@@ -1,9 +1,9 @@
 #!/bin/bash
 
-run_name="mt5-base-qald9-dbpedia"
+run_name="baseline-dbpedia"
 model_name="google/mt5-base"
 output_dir="fine-tuned_models/${run_name}"
-train_file="datasets/qald9plus/dbpedia/qald_9_plus-train-dbpedia.csv"
+train_file="datasets/qald9plus/dbpedia/qald_9_plus-train_dbpedia.csv"
 
 CUDA_VISIBLE_DEVICES=1 python train.py \
     --model_name_or_path "google/mt5-base" \
