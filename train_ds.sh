@@ -1,9 +1,9 @@
 #!/bin/bash
 
-run_name="exp13-mt5xl-lcquad-lc-ek-pad-dbp-endefr"
-model_name="pre-trained_models/lcquad-lc-ek-pad-dbp"
-output_dir="fine-tuned_models/${run_name}"
-train_file="datasets/qald9plus/dbpedia/qald_9_plus-train_dbpedia.csv"
+run_name="umt5-xl-lcquad2"
+model_name="google/umt5-xl"
+output_dir="pre-trained_models/${run_name}"
+train_file="datasets/lcquad2/train.csv"
 
 deepspeed --include=localhost:0 --master_port 60000 code/train_new.py \
     --deepspeed deepspeed/ds_config_zero3.json \
