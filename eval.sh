@@ -1,10 +1,10 @@
 #!/bin/bash
 
-model="exp13-mt5xl-lcquad-lc-ek-pad-dbp-endefr"
+model="exp16-flant5-lcquad-lc-ek-pad"
 pred_path=pred_files/${model}
-test_dataset="datasets/qald9plus/dbpedia/qald_9_plus_test_dbpedia-new.json"
-knowledge_graph="DBpedia"
-languages=("en" "de" "fr")
+test_dataset="datasets/qald9plus/wikidata/qald_9_plus_test_wikidata_new.json"
+knowledge_graph="Wikidata"
+languages=("en" "de" "fr" "es" "be" "ba" "zh" "ja" "ru" "uk" "lt")
 
 include_linguistic_context=true
 include_entity_knowledge=true
