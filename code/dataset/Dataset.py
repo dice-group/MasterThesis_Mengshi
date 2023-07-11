@@ -37,6 +37,7 @@ class Dataset:
                 entity_knowledge = entry.query.get_entity_knowledge()
 
             question_string = question.add_entity_knowledge(question_string, entity_knowledge)
+        question_string = f"Please convert the following quetion into SPARQL query. {question_string}"
         return question_string
 
     def is_kg_wikidata(self):
