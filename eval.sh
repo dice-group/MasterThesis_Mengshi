@@ -1,6 +1,6 @@
 #!/bin/bash
 
-model="exp15-umt5-lcquad-lc-ek-pad"
+model="exp15-umt5-lcquad-lc-ek-pad-25/checkpoint-1000"
 pred_path=pred_files/${model}
 test_dataset="datasets/qald9plus/wikidata/qald_9_plus_test_wikidata_new.json"
 knowledge_graph="Wikidata"
