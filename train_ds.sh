@@ -1,9 +1,9 @@
 #!/bin/bash
 
-run_name="exp15-umt5-lcquad-lc-ek-pad"
+run_name="umt5-xl-lcquad2"
 model_name="pre-trained_models/umt5-xl-lcquad2"
 output_dir="pre-trained_models/${run_name}"
-train_file="datasets/qald9plus/wikidata/qald_9_plus_train_wikidata.csv"
+train_file="datasets/lcquad2/train.csv"
 
 deepspeed --include=localhost:0 --master_port 60000 code/train_new.py \
     --deepspeed deepspeed/ds_config_zero3.json \
@@ -11,11 +11,10 @@ deepspeed --include=localhost:0 --master_port 60000 code/train_new.py \
     --do_train \
     --train_file ${train_file} \
     --output_dir ${output_dir} \
-    --num_train_epochs 25 \
+    --num_train_epochs 32 \
     --per_device_train_batch_size=16 \
-    --overwrite_output_dir \
-    --save_steps 500 \
-    --save_total_limit 2 \
+    --save_steps 1000 \
+    --save_total_limit 4 \
     --report_to wandb \
     --run_name ${run_name}\
     --tf32 1 \
