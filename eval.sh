@@ -1,9 +1,9 @@
 #!/bin/bash
 
-model="exp13-mt5xl-lcquad-lc-ek-pad-dbp-endefr"
+model="exp17-byt5-lcquad-lc-ek-pad"
 pred_path=pred_files/${model}
-test_dataset="datasets/qald9plus/dbpedia/qald_9_plus_test_dbpedia-new.json"
-knowledge_graph="DBpedia"
+test_dataset="datasets/qald9plus/wikidata/qald_9_plus_test_wikidata_new.json"
+knowledge_graph="Wikidata"
 languages=("en" "de" "ru" "fr" "lt" "ba" "be" "uk" "zh" "ja" "es")
 
 include_linguistic_context=true
@@ -11,7 +11,7 @@ include_entity_knowledge=true
 
 if [ "$include_linguistic_context" = true ]; then
   linguistic_context="--linguistic_context"
-else
+lse
   linguistic_context="--no-linguistic_context"
 fi
 
