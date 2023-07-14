@@ -1,9 +1,9 @@
 #!/bin/bash
 
 run_name="exp17-byt5-lcquad-lc-ek-pad"
-model_name="google/byt5-xl"
+model_name="pre-trained_models/byt5-lcquad-lc-ek-pad"
 output_dir="fine-tuned_models/${run_name}"
-train_file="datasets/lcquad2/train.csv"
+train_file="datasets/qald9plus/wikidata/qald_9_plus_train_wikidata.csv"
 
 deepspeed --include=localhost:1 --master_port 61000 code/train_new.py \
     --deepspeed deepspeed/ds_config_zero3.json \
