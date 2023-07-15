@@ -1,6 +1,6 @@
 #!/bin/bash
 
-model="exp17-byt5-lcquad-lc-ek-pad"
+model="exp17-byt5-lcquad-lc-ek-pad/checkpoint-600"
 pred_path=pred_files/${model}
 test_dataset="datasets/qald9plus/wikidata/qald_9_plus_test_wikidata_new.json"
 knowledge_graph="Wikidata"
@@ -11,7 +11,7 @@ include_entity_knowledge=true
 
 if [ "$include_linguistic_context" = true ]; then
   linguistic_context="--linguistic_context"
-lse
+else
   linguistic_context="--no-linguistic_context"
 fi
 
