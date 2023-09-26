@@ -641,14 +641,14 @@ class Test_Qald(unittest.TestCase):
         
         
 
-    @unittest.skip
+    # @unittest.skip
     def test_update_answers(self):
         qald9plus_dbpedia_file = read_json(
-            "datasets/qald9plus/dbpedia/qald_9_plus_test_dbpedia.json")
-        qald9plus_dbpedia = Qald(qald9plus_dbpedia_file, "DBpedia")
+            "/upb/users/m/mengshim/profiles/unix/cs/MasterThesis_Mengshi/datasets/qald9plus/wikidata/qald_9_plus_test_wikidata.json")
+        qald9plus_dbpedia = Qald(qald9plus_dbpedia_file, "Wikidata")
         qald9plus_dbpedia.update_answers()
         qald9plus_dbpedia.export_qald_json(
-            [language.value for language in Language], "datasets/qald9plus/dbpedia/qald_9_plus_test_dbpedia-new.json")
+            [language.value for language in Language], "/upb/users/m/mengshim/profiles/unix/cs/MasterThesis_Mengshi/datasets/qald9plus/wikidata/qald_9_plus_test_wikidata_new2.json")
 
 
 class Test_LCquad2_query(unittest.TestCase):

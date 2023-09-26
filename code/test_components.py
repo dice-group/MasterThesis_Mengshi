@@ -46,6 +46,7 @@ class Test_Question(unittest.TestCase):
     def test_detect_entity_with_mag_el_for_dbpedia_en(self):
         question = Question("Who wrote Harry Potter?", Language.en)
         response = question.send_entity_detection_request("babelscape_ner","mag_el")
+        print(response)
         self.assertTrue("ent_mentions" in response)
         self.assertTrue("http://dbpedia.org/resource" in response)
 
